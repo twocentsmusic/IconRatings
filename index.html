@@ -9,7 +9,6 @@
     <script src="jspsych/plugin-html-keyboard-response.js"></script>
     <script src="jspsych/plugin-html-button-response.js"></script>
     <script src="jspsych/plugin-html-slider-response.js"></script>
-    <script src="jspsych/plugin-audio-slider-response.js"></script>
     <link href="jspsych/jspsych.css" rel="stylesheet" type="text/css" />
     <link href="jspsych/jspsychsheet.css" rel="stylesheet" type="text/css" />
 
@@ -24,12 +23,15 @@
 </head>
   <body></body>
   <script>
-    var jsPsych = initJsPsych({
-        on_finish: function() {
-            jsPsych.data.get().localSave('csv','mydata.csv');
-        },
-        show_progress_bar: true
+
+var jsPsych = initJsPsych({
+        show_progress_bar: true,
+        on_finish: function () {
+        url = "https://script.google.com/macros/s/AKfycbwVZp2_2iV9OmLK1QKkD2NOvICdylBuzU4TOHf5L5L5Gs5Hq5G1CZUcCsDxxnYP2pDrzQ/exec";
+        jsPsychSheet.uploadData(url, jsPsych.data.get().csv())
+        }
     });
+
     var timeline = [];
 
     var preload = {
@@ -68,9 +70,9 @@
     };
     timeline.push(instructions1);
 
-    var audio1 = {
-        type: jsPsychAudioSliderResponse,
-        stimulus: 'sound/Brahms.mp3',
+    var slider1 = {
+        type: jsPsychHtmlSliderResponse,
+        stimulus: `<p></p>`,
         labels: ['<img src="image/1a_aroused.jpg">','<img src="image/1b_sleepy.jpg">'],
         step: 1,
         prompt: `<p>Clicking on the position on the slider that is closest to that image.</br>
@@ -233,20 +235,7 @@
         require_movement: true,
     };
 
-    timeline.push(audio1, slider2, slider3, slider4, slider5, slider6, slider7, slider8, slider9, slider10, slider11, slider12, slider13, slider14, slider15);
-
-    var audio2 = {
-        type: jsPsychAudioSliderResponse,
-        stimulus: 'sound/Bizet.mp3',
-        labels: ['<img src="image/1a_aroused.jpg">','<img src="image/1b_sleepy.jpg">'],
-        step: 1,
-        prompt: `<p>Clicking on the position on the slider that is closest to that image.</br>
-            Please give your initial impression.</p>`,
-        slider_width: 1000,
-        require_movement: true,
-    };
-    
-    timeline.push(audio2, slider2, slider3, slider4, slider5, slider6, slider7, slider8, slider9, slider10, slider11, slider12, slider13, slider14, slider15);
+    timeline.push(slider1, slider2, slider3, slider4, slider5, slider6, slider7, slider8, slider9, slider10, slider11, slider12, slider13, slider14, slider15);
 
     var end = {
         type: jsPsychHtmlButtonResponse,
